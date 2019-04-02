@@ -12,15 +12,23 @@
     width: 100%;
     height: 100%;
     text-align: center;
-    transition: transform 0.8s;
+    transition: transform 0.3s;
     transform-style: preserve-3d;
 }
 
 
 /* Do an horizontal flip when you move the mouse over the flip box container */
 
-.flip-clicked {
+.active {
     transform: rotateY(180deg);
+}
+
+.unclickable {
+    pointer-events: none;
+}
+
+.hidden {
+    display: none;
 }
 
 
