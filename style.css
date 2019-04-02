@@ -16,6 +16,11 @@
     transform-style: preserve-3d;
 }
 
+#results {
+    min-height: 2em;
+    margin: 1em;
+}
+
 
 /* Do an horizontal flip when you move the mouse over the flip box container */
 

@@ -5,8 +5,10 @@ var resultat = {
     time: 0,
     clicks: 0
 };
+var timer;
 var playerCards = [];
 var main = document.querySelector('main');
+var resultDiv = document.getElementById("results");
 var deck = [{
         image: "https://cdn.pixabay.com/photo/2017/02/23/13/23/bear-2092165_960_720.png",
         pairId: 1,
@@ -72,6 +74,11 @@ function render() {
 }
 
 main.addEventListener('click', function(e) {
+
+    if (resultat.time == 0) {
+        startTimer();
+    }
+
     resultat.clicks++;
     if (numberOfClicks < 2) {
         if (e.target.nodeName == "DIV") {
@@ -105,7 +112,9 @@ function checkMatch() {
         playerCards.push(first, second);
         // Kontrollera om spelet är slut.
         if (deck.length == playerCards.length) {
-            console.log("Spelet är slut");
+            console.log("Spelet är slut.");
+            console.log(resultat.clicks / 2);
+            clearInterval(timer);
         }
 
     } else {
@@ -141,6 +150,26 @@ function shuffle(a) {
     }
     return a;
 }
+
+function leadingZero(millis) {
+    return (millis.getSeconds() < 10 ? '0' : '') + millis.getSeconds();
+}
+
+function startTimer() {
+    timer = setInterval(() => {
+        resultat.time += 0.1
+        var millis = new Date(resultat.time * 1000);
+        var minutes = millis.getMinutes();
+        var seconds = leadingZero(millis);
+        var tens = millis.getMilliseconds() / 100;
+        if (resultat.time > 60) {
+            resultDiv.innerHTML = `${minutes}:${seconds}:${tens.toFixed(0)}`;
+        } else {
+            resultDiv.innerHTML = resultat.time.toFixed(1);
+        }
+    }, 100);
+}
+
 // INIT
 shuffle(deck);
 render();
