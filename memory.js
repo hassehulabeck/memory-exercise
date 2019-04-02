@@ -53,6 +53,11 @@ var deck = [{
 function render() {
     deck.forEach(function(card) {
         let newCard = document.createElement('div');
+        /*
+        Nedan lägger jag in ett "ofarligt" id-värde som inte går att koppla
+        till något särskilt. Det är bättre än att lägga in pairId, som
+        i det här fallet är "känslig information", dvs som en 
+        användare inte ska ha tillgång till. */
         newCard.innerHTML = `
         <div class="flip-card-inner">
             <div class="flip-card-back" id="${card.id}">        
@@ -69,8 +74,6 @@ function render() {
 main.addEventListener('click', function(e) {
     resultat.clicks++;
     if (numberOfClicks < 2) {
-        // Vad är det jag klickar på?
-        console.log(e.target);
         if (e.target.nodeName == "DIV") {
             e.target.parentNode.classList.add('active', 'unclickable');
             clickedCards.push(e.target.id);
@@ -78,15 +81,17 @@ main.addEventListener('click', function(e) {
         numberOfClicks++;
         if (numberOfClicks == 2) {
             checkMatch();
-            if (deck.length == playerCards.length) {
-                // SPelet är slut.
-                console.log("Spelet är slut");
-            }
         }
     }
 })
 
 function checkMatch() {
+    /*
+    Här använder jag id från HTML-elementet 
+    för att leta fram rätt card-objekt, 
+    och i nästa skede kolla det objektets pairId.
+    På så vis håller jag den känsliga informationen skyddad.
+    */
     let first = deck.find((card) => {
         return card.id == clickedCards[0];
     })
@@ -94,13 +99,16 @@ function checkMatch() {
         return card.id == clickedCards[1];
     })
     if (first.pairId == second.pairId) {
-        console.log("Lika");
         setTimeout(() => {
             removeCards();
         }, 1000)
         playerCards.push(first, second);
+        // Kontrollera om spelet är slut.
+        if (deck.length == playerCards.length) {
+            console.log("Spelet är slut");
+        }
+
     } else {
-        console.log("Ej lika");
         setTimeout(() => {
             resetCards();
         }, 1000)
