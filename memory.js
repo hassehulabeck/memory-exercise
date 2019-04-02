@@ -177,6 +177,7 @@ function hideCards(first, second) {
 main.addEventListener('click', function(e) {
     // Starta timern vid första klicket.
     if (resultat.time == 0) {
+        var recordStr = "Aktuellt rekord: " + localStorage.getItem('timeRecord') + " sekunder";
         timer = setInterval(() => {
             resultat.time += 0.1;
             if (resultat.time > 60) {
@@ -184,9 +185,9 @@ main.addEventListener('click', function(e) {
                 let mins = millis.getMinutes();
                 let secs = leadingZero(millis);
                 let tens = (millis.getMilliseconds() / 100).toFixed(0);
-                resultatDiv.innerHTML = `${mins}:${secs}:${tens}`;
+                resultatDiv.innerHTML = `${recordStr}<p>${mins}:${secs}:${tens}`;
             } else {
-                resultatDiv.innerHTML = resultat.time.toFixed(1)
+                resultatDiv.innerHTML = recordStr + "<p>" + resultat.time.toFixed(1)
             }
         }, 100)
     }
@@ -206,6 +207,10 @@ main.addEventListener('click', function(e) {
 
 function stopTimer() {
     clearInterval(timer);
+    if ((localStorage.getItem('timeRecord') == undefined) ||
+        (localStorage.getItem('timeRecord') > resultat.time)) {
+        localStorage.setItem('timeRecord', resultat.time.toFixed(1))
+    }
 }
 
 function leadingZero(millis) {
