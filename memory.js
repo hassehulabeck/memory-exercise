@@ -7,6 +7,7 @@ var resultat = {
 }
 var timer;
 var resultatDiv = document.getElementById("resultat");
+var message = "";
 
 var deck = [{
         image: "https://cdn.pixabay.com/photo/2017/02/23/13/23/bear-2092165_960_720.png",
@@ -210,18 +211,25 @@ function stopTimer() {
     clearInterval(timer);
     if (localStorage.getItem('timeRecord') != null) {
         var topTreStr = localStorage.getItem('timeRecord');
-        topTre = topTreStr.split(",");
-        var changed = false;
+        var topTre = topTreStr.split(",");
+        var prev = resultat.time;
         topTre.forEach((tid, index) => {
-            if ((resultat.time < tid) && (!changed)) {
-                if (index >= 1) {
-                    topTre[index + 1] = topTre[index];
+            if (prev < tid) {
+                message = "Ny rekordnotering!";
+                if (index < 2) {
+                    topTre[index + 1] = tid;
                 }
-                topTre[index] = resultat.time.toFixed(1);
-                changed = true;
+                topTre[index] = prev.toFixed(1);
+                prev = tid;
             }
         })
         localStorage.setItem('timeRecord', topTre)
+    }
+    if (message.length > 0) {
+        setTimeout(() => {
+            resultatDiv.innerHTML = `<p>${message}</p>`;
+            message = "";
+        }, 2500)
     }
 }
 
