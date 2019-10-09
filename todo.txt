@@ -1,0 +1,4 @@
+Känna av korten
+Vända tillbaka korten
+Win condition
+Timer

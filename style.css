@@ -2,7 +2,7 @@
     background-color: transparent;
     width: 100px;
     height: 100px;
-    border: 1px solid #f1f1f1;
+    border: none;
     perspective: 1000px;
     /* Remove this if you don't want the 3D effect */
 }
@@ -12,15 +12,28 @@
     width: 100%;
     height: 100%;
     text-align: center;
-    transition: transform 0.8s;
+    transition: transform 0.5s;
     transform-style: preserve-3d;
+}
+
+#resultat {
+    height: 3em;
+    margin: 1em;
 }
 
 
 /* Do an horizontal flip when you move the mouse over the flip box container */
 
-.flip-clicked {
+.active {
     transform: rotateY(180deg);
+}
+
+.unclickable {
+    pointer-events: none;
+}
+
+.hidden {
+    display: none;
 }
 
 
@@ -48,16 +61,18 @@
 
 /* GRID */
 
-main {
+ul {
     display: inline-grid;
+    justify-items: center;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
-    grid-gap: 1em;
+    grid-gap: .4em;
     width: 75%;
     margin: 0 auto;
+    list-style-type: none;
 }
 
-main div {
+li div {
     border: thin solid black;
     border-radius: 5px;
     width: 100%;
@@ -65,8 +80,18 @@ main div {
     grid-auto-flow: row;
 }
 
-main div img {
+li {
+    border: none;
+}
+
+li img {
     width: 50%;
     position: relative;
     top: 1em;
+}
+
+main {
+    width: 75%;
+    max-width: 700px;
+    margin: 0 auto;
 }
